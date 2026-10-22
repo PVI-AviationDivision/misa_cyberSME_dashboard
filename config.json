@@ -1,0 +1,21 @@
+{
+  "program_name": "Bảo hiểm An Tâm Số",
+  "product_name": "Cyber Shield SME",
+  "partner": "MISA",
+  "insurer": "BH PVI",
+  "go_live": "2026-10-21",
+  "dashboard_url": "https://pvi-aviationdivision.github.io/misa_cyberSME_dashboard/",
+  "mask_customer_names": true,
+  "exclude_name_patterns": ["TEST"],
+  "revenue_statuses": ["Đã duyệt"],
+  "count_endorsement_premium": false,
+  "monthly_target_premium": 0,
+  "packages": [
+    { "stbh": 50000000,  "name": "An Tâm Số 50",  "premium": 599000 },
+    { "stbh": 100000000, "name": "An Tâm Số 100", "premium": 1099000 },
+    { "stbh": 200000000, "name": "An Tâm Số 200", "premium": 2199000 },
+    { "stbh": 500000000, "name": "An Tâm Số 500", "premium": 4999000 }
+  ],
+  "message_greeting": "Kính gửi Anh/Chị Lãnh đạo,",
+  "message_signature": "Tùng – P.TMĐT, Ban HK&KHDN"
+}

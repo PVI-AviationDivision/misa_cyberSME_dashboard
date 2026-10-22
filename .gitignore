@@ -1,0 +1,8 @@
+# Bao cao raw chua ten khach hang - KHONG day len GitHub public
+inbox/*
+!inbox/.gitkeep
+archive/*
+!archive/.gitkeep
+~$*
+Thumbs.db
+desktop.ini
