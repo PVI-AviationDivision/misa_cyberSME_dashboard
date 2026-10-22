@@ -7,9 +7,11 @@ Link online: https://pvi-aviationdivision.github.io/misa_cyberSME_dashboard/
 
 1. Copy file báo cáo raw (`bhkh-YYYY-MM-DD....xlsx`) vào thư mục **`inbox\`**.
 2. Nháy đúp **`update.bat`**.
-   - Script đọc Excel → gộp với các ngày trước → tạo `data/data.js` → đẩy lên GitHub → mở dashboard.
+   - Script đọc Excel → gộp với các ngày trước → tạo `data/data.js` → **chép sẵn tin nhắn báo cáo vào clipboard** → đẩy lên GitHub → mở dashboard.
    - File đã xử lý tự chuyển sang `archive\` (chỉ lưu trên máy, **không** đẩy lên GitHub).
-3. Trên dashboard bấm **“Tạo tin nhắn Zalo”** → **Sao chép** → dán vào nhóm Zalo.
+3. Mở nhóm Zalo → **Ctrl+V** → gửi. (Nếu lỡ copy thứ khác: bấm nút **“Tin nhắn Zalo”** trên dashboard, hoặc mở `data\message.txt`.)
+
+Tin nhắn gồm: ngày hôm qua, tháng này, tháng trước, lũy kế chương trình và số GCN theo từng gói. Muốn sửa câu chữ → sửa file **`message_template.txt`** (giữ nguyên các ô `{...}`; dòng nào có `{GOI_...}` sẽ tự lặp cho từng gói).
 
 Có thể bỏ nhiều file một lúc. Nếu cùng một số đơn xuất hiện ở nhiều file, bản ở file mới nhất (theo ngày trong tên file, rồi hậu tố `_2`, `_3`…) được giữ lại.
 
@@ -29,13 +31,13 @@ Có thể bỏ nhiều file một lúc. Nếu cùng một số đơn xuất hi�
 | SĐBS | Số đơn chứa `SĐBS` hoặc đuôi `/E01…` – hiển thị riêng, **không** cộng doanh phí (đổi bằng `count_endorsement_premium`) |
 | Bản ghi test | Khách hàng có tên chứa `TEST` – loại khỏi số liệu (bật lại bằng ô “Hiện bản ghi TEST”) |
 | Gói | Xác định theo `Số tiền BH`: 50/100/200/500 triệu → An Tâm Số 50/100/200/500 |
-| Phát sinh ngày | Theo `Ngày CT` = ngày báo cáo − 1 (báo cáo sáng 22/10 → số ngày 21/10) |
+| Hôm qua / Tháng này / Tháng trước | Theo `Ngày CT`; “hôm qua” = ngày báo cáo − 1 (báo cáo sáng 22/10 → số ngày 21/10); tháng này tính đến hết hôm qua |
 
 ## Cấu hình – `config.json`
 
 - `mask_customer_names`: `true` = che tên khách hàng (repo đang **public**, ai có link đều xem được). Chỉ đặt `false` nếu repo chuyển sang private.
 - `monthly_target_premium`: điền kế hoạch doanh phí tháng (đồng) để hiện thanh tiến độ và % trong tin nhắn; `0` = ẩn.
-- `packages`: danh sách gói / phí. `message_greeting`, `message_signature`: lời chào và chữ ký trong tin nhắn Zalo.
+- `packages`: danh sách gói / phí.
 
 ## Cấu trúc thư mục
 
@@ -43,6 +45,7 @@ Có thể bỏ nhiều file một lúc. Nếu cùng một số đơn xuất hi�
 index.html          dashboard
 data/data.js        dữ liệu đã xử lý (tự sinh – đừng sửa tay)
 config.json         cấu hình
+message_template.txt mẫu tin nhắn Zalo
 update.bat          chạy hằng ngày
 scripts/build.ps1   đọc Excel (PowerShell, không cần cài Python/Excel)
 inbox/              bỏ báo cáo mới vào đây      (không đẩy lên GitHub)

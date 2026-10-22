@@ -1,0 +1,18 @@
+📊 BÁO CÁO NHANH – BẢO HIỂM AN TÂM SỐ (BH PVI × MISA)
+Số liệu đến hết ngày {NGAY}
+
+Kính gửi Anh/Chị Lãnh đạo,
+Em xin báo cáo kết quả bán Bảo hiểm An Tâm Số qua kênh MISA:
+
+🔹 Ngày {NGAY_NGAN}: {N_NGAY} GCN · {PHI_NGAY} đ
+🔹 Tháng {THANG}: {N_THANG} GCN · {PHI_THANG} đ
+🔹 Tháng {THANG_TRUOC}: {N_THANG_TRUOC} GCN · {PHI_THANG_TRUOC} đ
+🔹 Lũy kế chương trình: {N_LUYKE} GCN · {PHI_LUYKE} đ
+
+📦 Số GCN theo gói (Ngày | Tháng | Lũy kế):
+   • {GOI_TEN}: {GOI_N_NGAY} | {GOI_N_THANG} | {GOI_N_LUYKE} GCN – {GOI_PHI_LUYKE} đ
+
+🔗 Dashboard chi tiết: {LINK}
+
+Em trân trọng báo cáo.
+Tùng – P.TMĐT, Ban HK&KHDN

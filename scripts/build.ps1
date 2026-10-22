@@ -6,7 +6,8 @@
 # =====================================================================
 param(
     [string]$Root = '',
-    [switch]$NoArchive
+    [switch]$NoArchive,
+    [switch]$NoClipboard
 )
 
 $ErrorActionPreference = 'Stop'
@@ -234,16 +235,122 @@ $recList = New-Object System.Collections.ArrayList
 foreach ($k in $records.Keys) { [void]$recList.Add($records[$k]) }
 $recList = @($recList | Sort-Object @{ e = { $_.ngay_ct } ; Descending = $true }, @{ e = { $_.so_don } ; Descending = $true })
 
+# ---------- Tong hop so lieu ----------
+$vi = [System.Globalization.CultureInfo]::GetCultureInfo('vi-VN')
+function F([double]$n) { return $n.ToString('N0', $vi) }
+$t1 = ([datetime]::ParseExact($reportDate, 'yyyy-MM-dd', $inv)).AddDays(-1)
+$keyDay = $t1.ToString('yyyy-MM-dd')
+$keyMon = $t1.ToString('yyyy-MM')
+$keyPrev = $t1.AddMonths(-1).ToString('yyyy-MM')
+$okStatus = @($config.revenue_statuses | ForEach-Object { Get-Key $_ })
+function Test-Ok($r) { return ($okStatus.Count -eq 0 -or $okStatus -contains (Get-Key $r.trang_thai)) }
+
+$newRecs = @($recList | Where-Object { -not $_.test -and -not $_.sdbs -and (Test-Ok $_) })
+$sdRecs  = @($recList | Where-Object { -not $_.test -and $_.sdbs })
+$addSd = [bool]$config.count_endorsement_premium
+
+function In-Period($r, [string]$period) {
+    $d = [string]$r.ngay_ct
+    switch ($period) {
+        'day'   { return ($d -eq $keyDay) }
+        'month' { return ($d.Length -ge 7 -and $d.Substring(0, 7) -eq $keyMon -and $d -le $keyDay) }
+        'prev'  { return ($d.Length -ge 7 -and $d.Substring(0, 7) -eq $keyPrev) }
+        default { return $true }
+    }
+}
+function Get-Agg($list, [string]$period) {
+    $n = 0; $phi = 0.0
+    foreach ($r in $list) { if (In-Period $r $period) { $n++; $phi += $r.phi } }
+    if ($addSd) { foreach ($r in $sdRecs) { if ((Test-Ok $r) -and (In-Period $r $period)) { $phi += $r.phi } } }
+    return [ordered]@{ n = $n; phi = $phi }
+}
+$periods = @('day', 'month', 'prev', 'total')
+$summary = [ordered]@{
+    day_key = $keyDay; month_key = $keyMon; prev_key = $keyPrev
+    first_date = (@($newRecs | ForEach-Object { $_.ngay_ct } | Where-Object { $_ } | Sort-Object) | Select-Object -First 1)
+    sdbs_count = $sdRecs.Count
+    test_count = @($recList | Where-Object { $_.test }).Count
+    si_total = [double](($newRecs | ForEach-Object { $_.stbh } | Measure-Object -Sum).Sum)
+}
+foreach ($p in $periods) { $summary[$p] = Get-Agg $newRecs $p }
+$pkgOut = @()
+$matched = @{}
+foreach ($pk in $config.packages) {
+    $list = @($newRecs | Where-Object { [double]$_.stbh -eq [double]$pk.stbh })
+    foreach ($r in $list) { $matched[$r.so_don] = $true }
+    $o = [ordered]@{ name = $pk.name; stbh = $pk.stbh; premium = $pk.premium }
+    $saveSd = $addSd; $addSd = $false
+    foreach ($p in $periods) { $o[$p] = Get-Agg $list $p }
+    $addSd = $saveSd
+    $pkgOut += $o
+}
+$others = @($newRecs | Where-Object { -not $matched.ContainsKey($_.so_don) })
+if ($others.Count -gt 0) {
+    $o = [ordered]@{ name = 'Khac'; stbh = 0; premium = 0 }
+    $saveSd = $addSd; $addSd = $false
+    foreach ($p in $periods) { $o[$p] = Get-Agg $others $p }
+    $addSd = $saveSd
+    $pkgOut += $o
+}
+$summary['packages'] = [object[]]$pkgOut
+
+# ---------- Tin nhan Zalo (tu mau message_template.txt) ----------
+$message = ''
+$tplPath = Join-Path $Root 'message_template.txt'
+if (Test-Path $tplPath) {
+    $tpl = [System.IO.File]::ReadAllText($tplPath, $utf8).Replace("`r`n", "`n")
+    $map = @{
+        '{NGAY}' = $t1.ToString('dd/MM/yyyy'); '{NGAY_NGAN}' = $t1.ToString('dd/MM')
+        '{THANG}' = $t1.ToString('MM/yyyy'); '{THANG_TRUOC}' = $t1.AddMonths(-1).ToString('MM/yyyy')
+        '{N_NGAY}' = F $summary.day.n; '{PHI_NGAY}' = F $summary.day.phi
+        '{N_THANG}' = F $summary.month.n; '{PHI_THANG}' = F $summary.month.phi
+        '{N_THANG_TRUOC}' = F $summary.prev.n; '{PHI_THANG_TRUOC}' = F $summary.prev.phi
+        '{N_LUYKE}' = F $summary.total.n; '{PHI_LUYKE}' = F $summary.total.phi
+        '{N_SDBS}' = F $summary.sdbs_count; '{LINK}' = [string]$config.dashboard_url
+    }
+    $outLines = @()
+    foreach ($line in ($tpl -split "`n")) {
+        if ($line -match '\{GOI_') {
+            foreach ($pk in $pkgOut) {
+                $l = $line.Replace('{GOI_TEN}', $pk.name)
+                $l = $l.Replace('{GOI_N_NGAY}', (F $pk.day.n)).Replace('{GOI_PHI_NGAY}', (F $pk.day.phi))
+                $l = $l.Replace('{GOI_N_THANG}', (F $pk.month.n)).Replace('{GOI_PHI_THANG}', (F $pk.month.phi))
+                $l = $l.Replace('{GOI_N_THANG_TRUOC}', (F $pk.prev.n)).Replace('{GOI_PHI_THANG_TRUOC}', (F $pk.prev.phi))
+                $l = $l.Replace('{GOI_N_LUYKE}', (F $pk.total.n)).Replace('{GOI_PHI_LUYKE}', (F $pk.total.phi))
+                $outLines += $l
+            }
+        } else {
+            $l = $line
+            foreach ($k in $map.Keys) { $l = $l.Replace($k, $map[$k]) }
+            $outLines += $l
+        }
+    }
+    $message = ($outLines -join "`r`n").TrimEnd()
+    [System.IO.File]::WriteAllText((Join-Path $dataDir 'message.txt'), $message, $utf8)
+}
+
 $payload = [ordered]@{
     generated_at = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ss')
     report_date  = $reportDate
     config       = $config
+    summary      = $summary
+    message      = $message
     files        = [object[]]$fileLog
     records      = [object[]]$recList
 }
 $json = ConvertTo-Json -InputObject $payload -Depth 8 -Compress
 [System.IO.File]::WriteAllText((Join-Path $dataDir 'data.json'), $json, $utf8)
 [System.IO.File]::WriteAllText((Join-Path $dataDir 'data.js'), "window.DASH_DATA = $json;`n", $utf8)
+
+# chep tin nhan vao clipboard
+if ($message -and -not $NoClipboard) {
+    $copied = $false
+    try { Set-Clipboard -Value $message -ErrorAction Stop; $copied = $true } catch {
+        try { Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.Clipboard]::SetText($message); $copied = $true } catch { }
+    }
+    if ($copied) { Write-Step 'Da chep tin nhan bao cao vao clipboard - mo Zalo va bam Ctrl+V' 'Green' }
+    else { Write-Step ('Khong chep duoc vao clipboard - mo file data\message.txt de copy') 'Yellow' }
+}
 
 # chuyen file inbox -> archive
 if (-not $NoArchive) {
@@ -255,6 +362,4 @@ if (-not $NoArchive) {
     }
 }
 
-$valid = @($recList | Where-Object { -not $_.test -and -not $_.sdbs })
-$sum = 0; foreach ($v in $valid) { $sum += $v.phi }
-Write-Step ("Xong. Ngay bao cao {0} | {1} ban ghi | {2} don cap moi (khong tinh test) | Doanh phi {3:N0} d" -f $reportDate, $recList.Count, $valid.Count, $sum) 'Green'
+Write-Step ("Xong. Ngay bao cao {0} | Ngay {1}: {2} GCN / {3} d | Luy ke: {4} GCN / {5} d" -f $reportDate, $t1.ToString('dd/MM'), $summary.day.n, (F $summary.day.phi), $summary.total.n, (F $summary.total.phi)) 'Green'
