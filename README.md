@@ -31,6 +31,14 @@ Có thể bỏ nhiều file một lúc. Nếu cùng một số đơn xuất hi�
 3. Nháy đúp `update.bat`. Lần đầu script tự kết nối thư mục với repo; Git mở trình duyệt để đăng nhập GitHub – dùng tài khoản có quyền ghi vào repo.
 4. Bật GitHub Pages: repo → **Settings → Pages** → *Source: Deploy from a branch* → Branch **main**, thư mục **/(root)** → Save. Sau 1–2 phút link online hoạt động.
 
+## Thêm vào màn hình chính iPhone
+
+1. Mở link dashboard bằng **Safari** (không dùng trình duyệt trong Zalo).
+2. Bấm nút **Chia sẻ** (ô vuông có mũi tên) → **Thêm vào MH chính** → **Thêm**.
+3. Biểu tượng **An Tâm Số** xuất hiện như một app; mở ra toàn màn hình, có nút **Làm mới**, tự tải lại số liệu khi quay lại app sau hơn 10 phút.
+
+Android (Chrome): menu ⋮ → *Thêm vào màn hình chính*.
+
 ## Quy tắc tính số liệu
 
 | Chỉ tiêu | Cách tính |
@@ -57,6 +65,7 @@ data/data.js        dữ liệu đã xử lý (tự sinh – đừng sửa tay)
 config.json         cấu hình
 message_template*.txt mẫu tin nhắn Zalo (ngày / tuần / tháng)
 report.html         ảnh báo cáo khổ điện thoại
+icons/, manifest.webmanifest  biểu tượng app (iPhone/Android/trình duyệt)
 output/             ảnh báo cáo PNG              (không đẩy lên GitHub)
 update.bat          chạy hằng ngày
 scripts/build.ps1   đọc Excel (PowerShell, không cần cài Python/Excel)

@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=540">
 <title>An Tâm Số · Ảnh báo cáo</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="An Tâm Số">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f2f5f9">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -76,7 +85,7 @@ tr.tot td{border-bottom:0;font-size:17px}
 </div>
 <div class="wrap" id="main"></div>
 <div class="foot"><span id="link"></span><span id="upd"></span></div>
-<script src="data/data.js"></script>
+<script>document.write('<script src="data/data.js?v=' + Date.now() + '"><\/script>');</script>
 <script>
 (function(){
 const D = window.DASH_DATA; if (!D) return;
