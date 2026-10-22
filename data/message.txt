@@ -4,16 +4,16 @@ Số liệu đến hết ngày 21/10/2026
 Kính gửi Anh/Chị Lãnh đạo,
 Em xin báo cáo kết quả bán Bảo hiểm An Tâm Số qua kênh MISA:
 
-🔹 Ngày 21/10: 0 GCN · 0 đ
-🔹 Tháng 10/2026: 5 GCN · 9.995.000 đ
-🔹 Tháng 09/2026: 0 GCN · 0 đ
-🔹 Lũy kế chương trình: 5 GCN · 9.995.000 đ
+🔹 Ngày 21/10: 0 GCN · 0 đ (ngày 20/10: 0 GCN)
+🔹 7 ngày qua: 0 GCN · 0 đ (7 ngày trước đó: 0 GCN)
+🔹 Tháng 10/2026: 0 GCN · 0 đ (cùng kỳ tháng trước: 0 GCN)
+🔹 Lũy kế chương trình: 0 GCN · 0 đ
 
 📦 Số GCN theo gói (Ngày | Tháng | Lũy kế):
-   • An Tâm Số 50: 0 | 1 | 1 GCN – 599.000 đ
-   • An Tâm Số 100: 0 | 2 | 2 GCN – 2.198.000 đ
-   • An Tâm Số 200: 0 | 1 | 1 GCN – 2.199.000 đ
-   • An Tâm Số 500: 0 | 1 | 1 GCN – 4.999.000 đ
+   • An Tâm Số 50: 0 | 0 | 0 GCN – 0 đ
+   • An Tâm Số 100: 0 | 0 | 0 GCN – 0 đ
+   • An Tâm Số 200: 0 | 0 | 0 GCN – 0 đ
+   • An Tâm Số 500: 0 | 0 | 0 GCN – 0 đ
 
 🔗 Dashboard chi tiết: https://pvi-aviationdivision.github.io/misa_cyberSME_dashboard/
 

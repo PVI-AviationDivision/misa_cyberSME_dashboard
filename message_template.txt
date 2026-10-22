@@ -4,9 +4,10 @@ Số liệu đến hết ngày {NGAY}
 Kính gửi Anh/Chị Lãnh đạo,
 Em xin báo cáo kết quả bán Bảo hiểm An Tâm Số qua kênh MISA:
 
-🔹 Ngày {NGAY_NGAN}: {N_NGAY} GCN · {PHI_NGAY} đ
-🔹 Tháng {THANG}: {N_THANG} GCN · {PHI_THANG} đ
-🔹 Tháng {THANG_TRUOC}: {N_THANG_TRUOC} GCN · {PHI_THANG_TRUOC} đ
+🔹 Ngày {NGAY_NGAN}: {N_NGAY} GCN · {PHI_NGAY} đ (ngày {NGAY_TRUOC}: {N_NGAY_TRUOC} GCN)
+🔹 7 ngày qua: {N_TUAN} GCN · {PHI_TUAN} đ (7 ngày trước đó: {N_TUAN_TRUOC} GCN)
+🔹 Tháng {THANG}: {N_THANG} GCN · {PHI_THANG} đ (cùng kỳ tháng trước: {N_CUNG_KY} GCN)
+📈 Dự kiến cả tháng {THANG}: ~{DU_BAO} đ
 🔹 Lũy kế chương trình: {N_LUYKE} GCN · {PHI_LUYKE} đ
 
 📦 Số GCN theo gói (Ngày | Tháng | Lũy kế):

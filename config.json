@@ -4,16 +4,17 @@
   "partner": "MISA",
   "insurer": "BH PVI",
   "go_live": "2026-10-21",
+  "count_from": "2026-10-21",
   "dashboard_url": "https://pvi-aviationdivision.github.io/misa_cyberSME_dashboard/",
   "mask_customer_names": true,
   "exclude_name_patterns": [
-    "TEST"
+    "TEST",
+    "BẢO HIỂM PVI"
   ],
   "revenue_statuses": [
     "Đã duyệt"
   ],
   "count_endorsement_premium": false,
-  "monthly_target_premium": 0,
   "packages": [
     {
       "stbh": 50000000,

@@ -13,8 +13,13 @@ if not exist "inbox\*.xlsx" (
   echo.
 )
 
-echo  [1/3] Doc bao cao Excel, tao du lieu dashboard va tin nhan Zalo...
+echo  [1/3] Doc bao cao Excel, tao dashboard, anh bao cao va tin nhan Zalo...
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\build.ps1"
+if errorlevel 2 (
+  echo.
+  pause
+  exit /b 2
+)
 if errorlevel 1 (
   echo.
   echo  [X] Loi khi doc bao cao. Kiem tra lai file trong inbox.
@@ -55,7 +60,9 @@ if errorlevel 1 (
 
 :open
 echo.
-echo  [3/3] Mo dashboard. Tin nhan bao cao DA NAM SAN TRONG CLIPBOARD - vao nhom Zalo bam Ctrl+V.
+echo  [3/3] Mo dashboard.
+echo        - Tin nhan bao cao DA NAM SAN TRONG CLIPBOARD: vao nhom Zalo bam Ctrl+V.
+echo        - Anh bao cao nam trong thu muc output (cua so vua mo): keo tha vao Zalo.
 start "" "%~dp0index.html"
 echo.
 echo  Link bao cao: https://pvi-aviationdivision.github.io/misa_cyberSME_dashboard/

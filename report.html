@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=540">
+<title>An Tâm Số · Ảnh báo cáo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0b1e3f;--ink2:#2c3e5c;--mute:#61718a;--dim:#98a5b8;--line:#e3e9f1;--teal:#0fa9a3;--teal-ink:#0a7f7b;--red:#e11d2e;--blue:#1d63d8;--amber:#c97a06;
+  --display:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif;--sans:'Inter','Segoe UI',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:540px;height:1080px;overflow:hidden;background:#f2f5f9;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{position:relative;background:radial-gradient(circle at 1px 1px,rgba(11,30,63,.06) 1px,transparent 0) 0 0/18px 18px,#f2f5f9}
+.top{position:relative;padding:22px 28px 64px;background:linear-gradient(140deg,#0b1e3f,#11305f 60%,#0d4a63);color:#fff;overflow:hidden}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--red),var(--teal),var(--blue))}
+.top .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(95,240,230,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(95,240,230,.07) 1px,transparent 1px);background-size:26px 26px}
+.row1{position:relative;display:flex;align-items:center;gap:14px}
+.row1 svg{width:44px;height:44px}
+.eb{font-size:12px;font-weight:700;letter-spacing:.08em;color:#a9bbd6}
+.eb .p{color:#ff6b77}.eb .m{color:#7fb0ff}
+h1{font-family:var(--display);font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
+.mode{position:relative;margin-top:14px;display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:700;letter-spacing:.06em;color:#5ff0e6;background:rgba(95,240,230,.12);border:1px solid rgba(95,240,230,.3);padding:6px 12px;border-radius:999px}
+.wrap{padding:0 22px;margin-top:-50px;position:relative}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 28px -16px rgba(11,30,63,.25);padding:16px 20px}
+.hero .lb{font-size:13px;font-weight:600;color:var(--mute)}
+.hero .v{font-family:var(--display);font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-top:6px;font-variant-numeric:tabular-nums}
+.hero .v small{font-size:20px;color:var(--mute);font-weight:600;margin-left:4px}
+.hero .f{display:flex;gap:10px;align-items:center;margin-top:8px;font-size:14px;color:var(--mute)}
+.hero .f b{font-family:var(--display);color:var(--ink);font-size:17px}
+.d{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:999px}
+.d.up{color:#0e8a4e;background:#e3f6ec}.d.down{color:var(--red);background:#fdecee}.d.eq{color:var(--mute);background:#eef2f7}
+.g4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.k{padding:12px 16px;position:relative}
+.k .acc{position:absolute;left:16px;right:16px;top:0;height:3px;border-radius:0 0 3px 3px}
+.k .lb{font-size:12.5px;font-weight:600;color:var(--ink2)}
+.k .per{font-size:11px;color:var(--mute);margin-top:1px}
+.k .v{font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:-.02em;margin-top:8px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.k .v small{font-size:13px;color:var(--mute);font-weight:600;margin-left:2px}
+.k .n{font-size:12.5px;color:var(--mute);margin-top:3px}
+.k .n b{color:var(--ink);font-family:var(--display)}
+.k.total{background:linear-gradient(140deg,#0b1e3f,#11305f);border-color:#0b1e3f;color:#fff}
+.k.total .lb{color:#fff}.k.total .per,.k.total .n,.k.total .v small{color:#a9bbd6}.k.total .n b{color:#fff}
+h2{font-family:var(--display);font-size:15px;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline}
+h2 span{font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--mute)}
+table{width:100%;border-collapse:collapse}
+th{font-size:11.5px;font-weight:600;color:var(--mute);text-align:right;padding:0 6px 7px;border-bottom:1px solid var(--line)}
+th:first-child{text-align:left;padding-left:0}
+td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--display);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
+td:first-child{text-align:left;padding-left:0;font-family:var(--sans);font-size:13.5px;font-weight:600}
+td .sw{display:inline-block;width:8px;height:16px;border-radius:2px;margin-right:8px;vertical-align:-3px}
+td small{display:block;font-family:var(--sans);font-size:10.5px;font-weight:500;color:var(--mute)}
+td.z{color:#c3ccd8}
+tr.tot td{border-bottom:0;font-size:17px}
+.mt{margin-top:10px}
+.banner{margin-top:12px;padding:12px 14px;border-radius:12px;background:#fff7e6;border:1px solid #f3d9a4;color:#7a4a00;font-size:12.5px;line-height:1.5}
+.foot{position:absolute;left:0;right:0;bottom:0;padding:13px 22px;display:flex;justify-content:space-between;align-items:center;gap:10px;white-space:nowrap;font-size:11px;color:var(--mute);border-top:1px solid var(--line);background:#fff}
+.foot b{color:var(--teal-ink)}
+.sp{display:flex;align-items:flex-end;gap:5px;height:72px;margin-top:4px}
+.sp .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.sp .b{width:100%;border-radius:4px 4px 2px 2px;background:linear-gradient(#14c1b9,#1d63d8);min-height:2px}
+.sp .b.cur{background:linear-gradient(#e11d2e,#b3122a)}
+.sp .b.z{background:#e7ecf3}
+.sp .l{font-size:9.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+.sp .l.cur{color:var(--red);font-weight:700}
+</style>
+</head>
+<body>
+<div class="top"><div class="grid"></div>
+  <div class="row1">
+    <svg viewBox="0 0 48 48" fill="none"><path d="M24 3 6 10v12c0 11.5 7.6 19.6 18 23 10.4-3.4 18-11.5 18-23V10L24 3Z" fill="rgba(95,240,230,.12)" stroke="#5ff0e6" stroke-width="2.4"/><path d="M16 24.5 21.5 30 33 18" stroke="#5ff0e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="eb"><span class="p">BH PVI</span> × <span class="m">MISA</span> · CYBER SHIELD SME</div><h1>Bảo hiểm An Tâm Số</h1></div>
+  </div>
+  <div class="mode" id="mode"></div>
+</div>
+<div class="wrap" id="main"></div>
+<div class="foot"><span id="link"></span><span id="upd"></span></div>
+<script src="data/data.js"></script>
+<script>
+(function(){
+const D = window.DASH_DATA; if (!D) return;
+const C = D.config || {}, S = D.summary, $ = s => document.querySelector(s);
+const nf = new Intl.NumberFormat('vi-VN'), fmt = n => nf.format(Math.round(n||0));
+const short = n => { n = n||0; const a = Math.abs(n); if (a >= 1e9) return (n/1e9).toLocaleString('vi-VN',{maximumFractionDigits:2})+' tỷ'; if (a >= 1e6) return (n/1e6).toLocaleString('vi-VN',{maximumFractionDigits:a>=1e7?1:2})+' tr'; if (a >= 1e3) return Math.round(n/1e3)+'k'; return fmt(n); };
+const dm = s => s ? s.slice(8,10)+'/'+s.slice(5,7) : '', dmy = s => s ? dm(s)+'/'+s.slice(0,4) : '', my = k => k.slice(5,7)+'/'+k.slice(0,4);
+const delta = (c,p,l) => { if (!c && !p) return `<span class="d eq">= ${l}</span>`; const d = c-p, pct = p ? Math.round(d/p*100)+'%' : short(Math.abs(d)); return d>0 ? `<span class="d up">▲ ${pct.replace('-','')}</span> vs ${l}` : d<0 ? `<span class="d down">▼ ${pct.replace('-','')}</span> vs ${l}` : `<span class="d eq">= ${l}</span>`; };
+const mode = S.mode || 'daily';
+const P = {
+  daily:   { title:'BÁO CÁO NGÀY ' + dmy(S.day_key), hero:['Doanh phí ngày '+dm(S.day_key), S.day, delta(S.day.phi, S.prev_day.phi, 'ngày '+dm(S.prev_day.from))], col:['day','Ngày '+dm(S.day_key)],
+             cards:[['7 ngày qua', dm(S.week.from)+' – '+dm(S.week.to), S.week, 'var(--teal)'], ['Tháng này', 'Tháng '+my(S.month_key)+' (đến '+dm(S.day_key)+')', S.month, 'var(--blue)'], ['Tháng trước', 'Tháng '+my(S.prev_key), S.prev, '#7b61e8']] },
+  weekly:  { title:'TỔNG KẾT TUẦN ' + dm(S.week.from) + ' – ' + dm(S.week.to), hero:['Doanh phí tuần '+dm(S.week.from)+' – '+dm(S.week.to), S.week, delta(S.week.phi, S.prev_week.phi, 'tuần trước')], col:['week','Tuần'],
+             cards:[['Tuần trước', dm(S.prev_week.from)+' – '+dm(S.prev_week.to), S.prev_week, 'var(--teal)'], ['Tháng này', 'Tháng '+my(S.month_key)+' (đến '+dm(S.day_key)+')', S.month, 'var(--blue)'], ['Tháng trước', 'Tháng '+my(S.prev_key), S.prev, '#7b61e8']] },
+  monthly: { title:'TỔNG KẾT THÁNG ' + my(S.month_key), hero:['Doanh phí tháng '+my(S.month_key), S.month, delta(S.month.phi, S.prev.phi, 'tháng '+my(S.prev_key))], col:['month','Tháng '+S.month_key.slice(5,7)],
+             cards:[['Tháng trước', 'Tháng '+my(S.prev_key), S.prev, 'var(--teal)'], ['Tuần cuối tháng', dm(S.week.from)+' – '+dm(S.week.to), S.week, 'var(--blue)'], ['Tổng STBH', 'Mức trách nhiệm lũy kế', {phi:S.si_total, n:S.total.n}, '#7b61e8']] }
+}[mode];
+$('#mode').textContent = P.title;
+const fc = S.forecast;
+const k = (c, cls) => `<div class="card k ${cls||''}"><div class="acc" style="background:${c[3]}"></div><div class="lb">${c[0]}</div><div class="per">${c[1]}</div><div class="v">${fmt(c[2].phi)}<small>đ</small></div><div class="n"><b>${c[2].n}</b> GCN</div></div>`;
+function spark(){
+  const by = {}; (D.records||[]).forEach(r => { if (!r.test && !r.sdbs && r.ngay_ct) by[r.ngay_ct] = (by[r.ngay_ct]||0) + r.phi; });
+  const days = []; const end = new Date(S.day_key+'T00:00:00');
+  for (let i = 13; i >= 0; i--) { const d = new Date(end); d.setDate(d.getDate()-i); const k = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); days.push([k, by[k]||0]); }
+  const mx = Math.max(...days.map(d=>d[1]), 1);
+  return days.map(([k,v]) => { const cur = k === S.day_key; return `<div class="c"><div class="b ${cur?'cur':''} ${v?'':'z'}" style="height:${Math.max(3, v/mx*52)}px"></div><div class="l ${cur?'cur':''}">${k.slice(8,10)}</div></div>`; }).join('');
+}
+const PKC = ['#0fa9a3','#1d63d8','#7b61e8','#e11d2e','#c97a06'];
+const colKey = P.col[0], showMonthCol = colKey !== 'month';
+const cell = d => `<td class="${d.n ? '' : 'z'}">${d.n || '–'}</td>`;
+const rows = (S.packages||[]).map((p,i) => `<tr><td><span class="sw" style="background:${PKC[i%PKC.length]}"></span>${p.name === 'Khac' ? 'Khác' : p.name}</td>${cell(p[colKey])}${showMonthCol ? cell(p.month) : ''}<td class="${p.total.n ? '' : 'z'}">${p.total.n || '–'}<small>${p.total.n ? short(p.total.phi)+' đ' : ''}</small></td></tr>`).join('');
+$('#main').innerHTML = `
+  <div class="card hero"><div class="lb">${P.hero[0]}</div><div class="v">${fmt(P.hero[1].phi)}<small>đ</small></div><div class="f"><span><b>${P.hero[1].n}</b> GCN cấp mới</span>${P.hero[2]}</div>
+  ${fc && mode !== 'monthly' ? `<div class="f" style="margin-top:6px">📈 Dự kiến cả tháng ${my(S.month_key)}: <b>~${short(fc.phi)} đ</b></div>` : ''}</div>
+  <div class="g4">${P.cards.map(c => k(c)).join('')}${k(['Lũy kế chương trình', 'Từ go-live '+dmy(S.count_from || C.go_live), S.total, 'transparent'], 'total')}</div>
+  ${S.total.n ? '' : `<div class="banner">⏳ <b>Chưa ghi nhận đơn thật</b> kể từ go-live ${dmy(S.count_from || C.go_live)}. Các bản ghi test / nội bộ đã được loại khỏi số liệu.</div>`}
+  <div class="card mt"><h2>Số GCN theo gói <span>lũy kế kèm doanh phí</span></h2>
+    <table><thead><tr><th>Gói</th><th>${P.col[1]}</th>${showMonthCol ? '<th>Tháng '+S.month_key.slice(5,7)+'</th>' : ''}<th>Lũy kế</th></tr></thead>
+    <tbody>${rows}<tr class="tot"><td>Tổng</td>${cell(S[colKey])}${showMonthCol ? cell(S.month) : ''}<td class="${S.total.n?'':'z'}">${S.total.n || '–'}<small>${S.total.n ? short(S.total.phi)+' đ' : ''}</small></td></tr></tbody></table>
+  </div>
+  <div class="card mt"><h2>Doanh phí 14 ngày gần nhất <span>đỏ = ${dm(S.day_key)}</span></h2><div class="sp">${spark()}</div></div>`;
+$('#link').innerHTML = '🔗 <b>' + (C.dashboard_url||'').replace(/^https?:\/\//,'').replace(/\/$/,'') + '</b>';
+$('#upd').textContent = 'Cập nhật ' + D.generated_at.slice(11,16) + ' ' + dm(D.generated_at.slice(0,10));
+})();
+</script>
+</body>
+</html>
