@@ -8,8 +8,8 @@ echo    BH PVI x MISA  ^|  Bao hiem An Tam So - Daily Ops
 echo  =====================================================
 echo.
 
-if not exist "inbox\*.xlsx" (
-  echo  [!] Thu muc inbox dang trong - se dung lai du lieu da luu trong archive.
+if not exist "Baocao Input\*.xlsx" (
+  echo  [!] Thu muc "Baocao Input" dang trong - se dung lai du lieu da luu trong archive.
   echo.
 )
 
@@ -22,7 +22,7 @@ if errorlevel 2 (
 )
 if errorlevel 1 (
   echo.
-  echo  [X] Loi khi doc bao cao. Kiem tra lai file trong inbox.
+  echo  [X] Loi khi doc bao cao. Kiem tra lai file trong thu muc "Baocao Input".
   pause
   exit /b 1
 )

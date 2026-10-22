@@ -1,7 +1,7 @@
 # =====================================================================
 #  An Tam So / Cyber Shield SME - BH PVI x MISA
-#  build.ps1 : doc file Excel bao cao raw trong /inbox (+ /archive),
-#              gop - loai trung - xuat data/data.js cho dashboard.
+#  build.ps1 : doc file Excel bao cao raw trong /Baocao Input (+ /archive),
+#              gop - loai trung - xuat data/data.enc.js (ma hoa) + data/data.local.js (chi o may).
 #  Khong can cai Python / Excel. Chay duoc tren Windows PowerShell 5.1+.
 # =====================================================================
 param(
@@ -26,7 +26,7 @@ $cfgPath = Join-Path $Root 'config.json'
 if (-not (Test-Path $cfgPath)) { throw "Khong tim thay config.json tai $cfgPath" }
 $config = [System.IO.File]::ReadAllText($cfgPath, $utf8) | ConvertFrom-Json
 
-$inbox   = Join-Path $Root 'inbox'
+$inbox   = Join-Path $Root 'Baocao Input'
 $archive = Join-Path $Root 'archive'
 $dataDir = Join-Path $Root 'data'
 foreach ($d in @($inbox, $archive, $dataDir)) { if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d | Out-Null } }
@@ -157,7 +157,7 @@ $files = @()
 $files += Get-ChildItem -Path $archive -Filter *.xlsx -File -ErrorAction SilentlyContinue
 $files += Get-ChildItem -Path $inbox   -Filter *.xlsx -File -ErrorAction SilentlyContinue
 $files = $files | Where-Object { $_.Name -notlike '~$*' }
-if (-not $files -or @($files).Count -eq 0) { throw "Chua co file .xlsx nao trong thu muc inbox\ . Hay copy bao cao vao do roi chay lai." }
+if (-not $files -or @($files).Count -eq 0) { throw "Chua co file .xlsx nao trong thu muc 'Baocao Input'. Hay copy bao cao vao do roi chay lai." }
 
 function Get-FileSortKey($f) {
     $m = [regex]::Match($f.Name, '(\d{4})-(\d{2})-(\d{2})(?:[_\-\s\(]*(\d+))?')
@@ -248,7 +248,7 @@ function Confirm-Step([string]$msg) {
     $a = Read-Host '      Van tiep tuc cap nhat? (Y = co / N = huy)'
     return ($a -match '^\s*[yYcC]')
 }
-function Stop-Cancel { Write-Step 'Da huy - khong cap nhat gi. File van nam trong inbox.' 'Yellow'; exit 2 }
+function Stop-Cancel { Write-Step 'Da huy - khong cap nhat gi. File van nam trong thu muc Baocao Input.' 'Yellow'; exit 2 }
 
 # ---------- Chong chay nham ----------
 $dupe = @($inboxFiles | Where-Object { $archNames -contains $_.Name })
@@ -425,9 +425,54 @@ $payload = [ordered]@{
 }
 $json = ConvertTo-Json -InputObject $payload -Depth 8 -Compress
 [System.IO.File]::WriteAllText((Join-Path $dataDir 'data.json'), $json, $utf8)
-[System.IO.File]::WriteAllText((Join-Path $dataDir 'data.js'), "window.DASH_DATA = $json;`n", $utf8)
+[System.IO.File]::WriteAllText((Join-Path $dataDir 'data.local.js'), "window.DASH_DATA = $json;`n", $utf8)
+$oldPlain = Join-Path $dataDir 'data.js'
+if (Test-Path $oldPlain) { Remove-Item $oldPlain -Force }
 
-# chuyen file inbox -> archive
+# ---------- Ma hoa du lieu cho ban online (PBKDF2-SHA256 -> AES-256-CBC + HMAC-SHA256) ----------
+$encSalt = 'antamso-dashboard-v1'
+$encIter = 150000
+$secretPath = Join-Path $Root '.secret'
+function Get-DerivedKeys([string]$pw) {
+    $kdf = New-Object System.Security.Cryptography.Rfc2898DeriveBytes($pw, [System.Text.Encoding]::UTF8.GetBytes($encSalt), $encIter, [System.Security.Cryptography.HashAlgorithmName]::SHA256)
+    $k = $kdf.GetBytes(64); $kdf.Dispose(); return ,$k
+}
+$keyBytes = $null
+if (Test-Path $secretPath) {
+    try { $keyBytes = [Convert]::FromBase64String(([System.IO.File]::ReadAllText($secretPath)).Trim()) } catch { $keyBytes = $null }
+    if ($keyBytes -and $keyBytes.Length -ne 64) { $keyBytes = $null }
+}
+if (-not $keyBytes) {
+    Write-Host ''
+    Write-Host '  Chua co mat khau dashboard tren may nay. Hay dat mat khau (nguoi xem online phai nhap mat khau nay).' -ForegroundColor Cyan
+    while (-not $keyBytes) {
+        $p1 = Read-Host '  Nhap mat khau' -AsSecureString
+        $p2 = Read-Host '  Nhap lai mat khau' -AsSecureString
+        $u1 = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($p1))
+        $u2 = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($p2))
+        if ($u1 -and $u1 -ceq $u2) { $keyBytes = Get-DerivedKeys $u1 } else { Write-Host '  Hai lan nhap khong khop, nhap lai.' -ForegroundColor Yellow }
+        $u1 = $null; $u2 = $null
+    }
+    [System.IO.File]::WriteAllText($secretPath, [Convert]::ToBase64String($keyBytes))
+    try { (Get-Item $secretPath -Force).Attributes = 'Hidden' } catch { }
+}
+$encKey = New-Object byte[] 32; $macKey = New-Object byte[] 32
+[Array]::Copy($keyBytes, 0, $encKey, 0, 32); [Array]::Copy($keyBytes, 32, $macKey, 0, 32)
+$aes = [System.Security.Cryptography.Aes]::Create()
+$aes.Mode = [System.Security.Cryptography.CipherMode]::CBC
+$aes.Padding = [System.Security.Cryptography.PaddingMode]::PKCS7
+$aes.Key = $encKey; $aes.GenerateIV()
+$ptBytes = $utf8.GetBytes($json)
+$ctBytes = $aes.CreateEncryptor().TransformFinalBlock($ptBytes, 0, $ptBytes.Length)
+$ms = New-Object System.IO.MemoryStream
+$ms.Write($aes.IV, 0, $aes.IV.Length); $ms.Write($ctBytes, 0, $ctBytes.Length)
+$hmac = New-Object System.Security.Cryptography.HMACSHA256 -ArgumentList (,$macKey)
+$macBytes = $hmac.ComputeHash($ms.ToArray())
+$encObj = '{{"v":1,"salt":"{0}","iter":{1},"iv":"{2}","ct":"{3}","mac":"{4}"}}' -f $encSalt, $encIter, [Convert]::ToBase64String($aes.IV), [Convert]::ToBase64String($ctBytes), [Convert]::ToBase64String($macBytes)
+[System.IO.File]::WriteAllText((Join-Path $dataDir 'data.enc.js'), "window.DASH_ENC = $encObj;`n", $utf8)
+$aes.Dispose(); $hmac.Dispose(); $ms.Dispose()
+
+# chuyen file Baocao Input -> archive
 if (-not $NoArchive) {
     foreach ($f in $inboxFiles) {
         $dest = Join-Path $archive $f.Name

@@ -1,9 +1,15 @@
 # Bao cao raw chua ten khach hang - KHONG day len GitHub public
-inbox/*
-!inbox/.gitkeep
+Baocao Input/*
+!Baocao Input/.gitkeep
 archive/*
 !archive/.gitkeep
 ~$*
 Thumbs.db
 desktop.ini
 output/
+# du lieu chua ma hoa & khoa - chi o may
+.secret
+data/data.js
+data/data.local.js
+data/data.json
+data/message.txt

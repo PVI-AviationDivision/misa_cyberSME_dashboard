@@ -5,7 +5,7 @@ Link online: https://pvi-aviationdivision.github.io/misa_cyberSME_dashboard/
 
 ## Dùng hằng ngày (≈ 30 giây)
 
-1. Copy file báo cáo raw (`bhkh-YYYY-MM-DD....xlsx`) vào thư mục **`inbox\`**.
+1. Copy file báo cáo raw (`bhkh-YYYY-MM-DD....xlsx`) vào thư mục **`Baocao Input`**.
 2. Nháy đúp **`update.bat`**. Script sẽ:
    - đọc Excel, gộp với các ngày trước, loại đơn test / nội bộ, tạo `data/data.js`;
    - **chép sẵn tin nhắn báo cáo vào clipboard**;
@@ -30,6 +30,14 @@ Có thể bỏ nhiều file một lúc. Nếu cùng một số đơn xuất hi�
    *Máy khác:* `git clone https://github.com/PVI-AviationDivision/misa_cyberSME_dashboard.git`.
 3. Nháy đúp `update.bat`. Lần đầu script tự kết nối thư mục với repo; Git mở trình duyệt để đăng nhập GitHub – dùng tài khoản có quyền ghi vào repo.
 4. Bật GitHub Pages: repo → **Settings → Pages** → *Source: Deploy from a branch* → Branch **main**, thư mục **/(root)** → Save. Sau 1–2 phút link online hoạt động.
+
+## Mật khẩu
+
+- Bản online yêu cầu mật khẩu. Dữ liệu trên GitHub chỉ có dạng **mã hóa** (`data/data.enc.js`, PBKDF2-SHA256 150.000 vòng → AES-256 + HMAC). Mã nguồn **không chứa mật khẩu**; mở thẳng file dữ liệu cũng chỉ thấy chuỗi mã hóa.
+- Trên máy này, sau khi chạy `update.bat`, mở `index.html` không cần mật khẩu (dùng `data/data.local.js` – chỉ nằm trên máy, không đẩy lên GitHub).
+- Tích “Ghi nhớ trên thiết bị này” để iPhone không hỏi lại; nút 🔒 trên dashboard để khóa lại / quên mật khẩu đã nhớ.
+- **Đổi mật khẩu:** nháy đúp `doi_mat_khau.bat` → nhập mật khẩu mới 2 lần → tự cập nhật lên GitHub. Mọi thiết bị phải nhập lại mật khẩu mới.
+- File `.secret` (ẩn) lưu khóa đã dẫn xuất từ mật khẩu, không phải mật khẩu gốc. Không chia sẻ / không xóa file này (xóa thì lần chạy sau sẽ hỏi đặt mật khẩu lại).
 
 ## Thêm vào màn hình chính iPhone
 
@@ -61,7 +69,10 @@ Android (Chrome): menu ⋮ → *Thêm vào màn hình chính*.
 
 ```
 index.html          dashboard
-data/data.js        dữ liệu đã xử lý (tự sinh – đừng sửa tay)
+data/data.enc.js    dữ liệu đã mã hóa – bản duy nhất lên GitHub (tự sinh)
+data/data.local.js  dữ liệu chưa mã hóa – chỉ trên máy (tự sinh)
+assets/gate.js      màn hình mật khẩu + giải mã
+doi_mat_khau.bat    đổi mật khẩu
 config.json         cấu hình
 message_template*.txt mẫu tin nhắn Zalo (ngày / tuần / tháng)
 report.html         ảnh báo cáo khổ điện thoại
@@ -69,6 +80,6 @@ icons/, manifest.webmanifest  biểu tượng app (iPhone/Android/trình duyệt
 output/             ảnh báo cáo PNG              (không đẩy lên GitHub)
 update.bat          chạy hằng ngày
 scripts/build.ps1   đọc Excel (PowerShell, không cần cài Python/Excel)
-inbox/              bỏ báo cáo mới vào đây      (không đẩy lên GitHub)
+Baocao Input/       bỏ báo cáo mới vào đây      (không đẩy lên GitHub)
 archive/            báo cáo đã xử lý            (không đẩy lên GitHub)
 ```

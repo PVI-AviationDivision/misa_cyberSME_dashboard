@@ -85,9 +85,10 @@ tr.tot td{border-bottom:0;font-size:17px}
 </div>
 <div class="wrap" id="main"></div>
 <div class="foot"><span id="link"></span><span id="upd"></span></div>
-<script>document.write('<script src="data/data.js?v=' + Date.now() + '"><\/script>');</script>
+<script>(function(){var v=Date.now();document.write('<script src="data/data.local.js?v='+v+'"><\/script><script src="data/data.enc.js?v='+v+'"><\/script>');})();</script>
+<script src="assets/gate.js"></script>
 <script>
-(function(){
+window.startReport = function(){
 const D = window.DASH_DATA; if (!D) return;
 const C = D.config || {}, S = D.summary, $ = s => document.querySelector(s);
 const nf = new Intl.NumberFormat('vi-VN'), fmt = n => nf.format(Math.round(n||0));
@@ -129,7 +130,8 @@ $('#main').innerHTML = `
   <div class="card mt"><h2>Doanh phí 14 ngày gần nhất <span>đỏ = ${dm(S.day_key)}</span></h2><div class="sp">${spark()}</div></div>`;
 $('#link').innerHTML = '🔗 <b>' + (C.dashboard_url||'').replace(/^https?:\/\//,'').replace(/\/$/,'') + '</b>';
 $('#upd').textContent = 'Cập nhật ' + D.generated_at.slice(11,16) + ' ' + dm(D.generated_at.slice(0,10));
-})();
+};
+Gate.run(window.startReport);
 </script>
 </body>
 </html>
