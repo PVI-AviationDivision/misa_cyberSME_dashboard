@@ -1,20 +1,20 @@
 📊 BÁO CÁO NHANH – BẢO HIỂM AN TÂM SỐ (BH PVI × MISA)
-Số liệu đến hết ngày 24/11/2026
+Số liệu đến hết ngày 26/11/2026
 
 Kính gửi Anh/Chị Lãnh đạo,
 Em xin báo cáo kết quả bán Bảo hiểm An Tâm Số qua kênh MISA:
 
-🔹 Ngày 24/11: 1 GCN · 4.999.000 đ (ngày 23/11: 0 GCN)
+🔹 Ngày 26/11: 0 GCN · 0 đ (ngày 25/11: 0 GCN)
 🔹 7 ngày qua: 1 GCN · 4.999.000 đ (7 ngày trước đó: 0 GCN)
 🔹 Tháng 11/2026: 1 GCN · 4.999.000 đ (cùng kỳ tháng trước: 0 GCN)
-📈 Dự kiến cả tháng 11/2026: ~6,2 triệu đ
-🔹 Lũy kế chương trình: 1 GCN · 4.999.000 đ
+📈 Dự kiến cả tháng 11/2026: ~5,8 triệu đ
+🔹 Lũy kế chương trình: 2 GCN · 6.098.000 đ
 
 📦 Số GCN theo gói (Ngày | Tháng | Lũy kế):
    • An Tâm Số 50: 0 | 0 | 0 GCN – 0 đ
-   • An Tâm Số 100: 0 | 0 | 0 GCN – 0 đ
+   • An Tâm Số 100: 0 | 0 | 1 GCN – 1.099.000 đ
    • An Tâm Số 200: 0 | 0 | 0 GCN – 0 đ
-   • An Tâm Số 500: 1 | 1 | 1 GCN – 4.999.000 đ
+   • An Tâm Số 500: 0 | 1 | 1 GCN – 4.999.000 đ
 
 🔗 Dashboard chi tiết: https://pvi-aviationdivision.github.io/misa_cyberSME_dashboard/
 
